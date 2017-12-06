@@ -1,32 +1,33 @@
 package com.hubrick.processor;
 
-import com.hubrick.model.Department;
-import com.hubrick.model.Employee;
 import com.hubrick.repository.impl.DepartmentRepository;
 import com.hubrick.repository.impl.EmployeeRepository;
+import com.hubrick.service.ReportService;
 
-import java.util.List;
+import java.util.Map;
 
 /**
  * Created by eric.nascimento.
  */
 public abstract class AbstractProcessor {
 
-    private EmployeeRepository employeeRepository;
-    private DepartmentRepository departmentRepository;
+    protected ReportService reportService;
 
-    public AbstractProcessor(EmployeeRepository employeeRepository, DepartmentRepository departmentRepository){
-        this.employeeRepository = employeeRepository;
-        this.departmentRepository = departmentRepository;
+    public AbstractProcessor(ReportService reportService){
+        this.reportService = new ReportService(new EmployeeRepository(), new DepartmentRepository());
     }
 
     public boolean process() {
 
         try {
 
-            List<Department> departments = departmentRepository.findAll();
-            List<Employee> employees = employeeRepository.findAll();
-            return write(departments, employees);
+            Map<Integer, Double> incomeByDepartment = reportService.getIncomeByDepartment();
+            write("income-by-department", incomeByDepartment);
+
+            Map<Integer, Double> income95ByDepartment = reportService.getIncome95ByDepartment();
+            write("income-95-by-department", income95ByDepartment);
+
+            return true;
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -34,6 +35,6 @@ public abstract class AbstractProcessor {
         }
     }
 
-    protected abstract boolean write(List<Department> departments, List<Employee> employees);
+    protected abstract boolean write(String fileName, Map<Integer, Double> report);
 
 }

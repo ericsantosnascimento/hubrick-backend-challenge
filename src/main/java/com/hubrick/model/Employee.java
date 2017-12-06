@@ -1,6 +1,10 @@
 package com.hubrick.model;
 
-public class Employee {
+import java.io.Serializable;
+
+public class Employee implements Serializable {
+
+    private static final long serialVersionUID = 4703655735897099572L;
 
     private Integer departmentId;
     private String name;
