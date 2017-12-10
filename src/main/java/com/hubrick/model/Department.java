@@ -3,6 +3,7 @@ package com.hubrick.model;
 public class Department {
 
     private static Integer idAutoIncrement = 1;
+
     private Integer id;
     private String description;
 

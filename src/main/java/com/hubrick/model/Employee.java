@@ -6,8 +6,9 @@ import java.math.RoundingMode;
 
 public class Employee implements Serializable {
 
-    private static final long serialVersionUID = 4703655735897099572L;
+    private static Integer idAutoIncrement = 1;
 
+    private Integer id;
     private Integer departmentId;
     private String name;
     private String gender;
@@ -15,11 +16,16 @@ public class Employee implements Serializable {
     private Integer age;
 
     public Employee(Integer departmentId, String name, String gender, BigDecimal income, Integer age) {
+        this.id = idAutoIncrement++;
         this.departmentId = departmentId;
         this.name = name;
         this.gender = gender;
         this.income = income;
         this.age = age;
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public Integer getDepartmentId() {

@@ -19,9 +19,9 @@ public class CSVProcessor implements Processor {
     private ReportService reportService;
     private CSVWriter csvWriter;
 
-    public CSVProcessor() {
-        this.reportService = new ReportService(new EmployeeRepository(), new DepartmentRepository());
-        this.csvWriter = new CSVWriter();
+    public CSVProcessor(ReportService reportService, CSVWriter csvWriter) {
+        this.reportService = reportService;
+        this.csvWriter = csvWriter;
     }
 
     @Override

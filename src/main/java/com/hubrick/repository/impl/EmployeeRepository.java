@@ -19,14 +19,39 @@ import java.util.stream.Collectors;
 
 public class EmployeeRepository implements Repository<Employee> {
 
+    private static EmployeeRepository instance;
+
+    private List<Employee> employees;
     private Map<String, String> ages;
+
+    public static synchronized EmployeeRepository getInstance() {
+
+        if (instance == null) {
+            instance = new EmployeeRepository();
+        }
+
+        return instance;
+    }
+
+    private EmployeeRepository() {
+        this.ages = loadAges();
+        this.employees = loadEmployees();
+    }
 
     @Override
     public List<Employee> findAll() {
+        return employees;
+    }
+
+    @Override
+    public Optional<Employee> findOne(Integer id) {
+        return employees.stream().filter(employee -> employee.getId().equals(id)).findFirst();
+    }
+
+    private List<Employee> loadEmployees() {
 
         try {
 
-            ages = loadAges();
             InputStream inputStream = new FileInputStream(new File("data/employees.csv"));
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             return bufferedReader.lines().map(mapLineToEmployee).collect(Collectors.toList());

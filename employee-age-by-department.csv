@@ -1,8 +1,9 @@
-department,average age \n"1,53.54
-2,48.10
-3,43.93
-4,51.79
-5,55.36
-6,44.09
-7,44.07
-8,46.00
+department,average age 
+Sales,44.07
+Unknown,46.00
+Public Relations,44.09
+Accounting,53.54
+Business Development,48.10
+Human Resources,43.93
+Marketing,55.36
+Information Technology,51.79
