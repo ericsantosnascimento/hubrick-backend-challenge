@@ -1,5 +1,6 @@
 package com.hubrick;
 
+import com.hubrick.file.reader.FileReader;
 import com.hubrick.processor.impl.CSVProcessor;
 import com.hubrick.repository.impl.DepartmentRepository;
 import com.hubrick.repository.impl.EmployeeRepository;
@@ -12,7 +13,8 @@ public class HubrickMainApplication {
 
 //        FactoryType.Type type = args.length == 1 ? FactoryType.Type.getTypeByName(args[0]) : FactoryType.Type.CSV;
 
-        ReportService reportService = new ReportService(EmployeeRepository.getInstance(), DepartmentRepository.getInstance());
+        FileReader fileReader = FileReader.getInstance();
+        ReportService reportService = new ReportService(EmployeeRepository.getInstance(fileReader), DepartmentRepository.getInstance(fileReader));
         CSVProcessor csvProcessor = new CSVProcessor(reportService, new CSVWriter());
         csvProcessor.process();
 

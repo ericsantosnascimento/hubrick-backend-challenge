@@ -1,14 +1,11 @@
 package com.hubrick.repository.impl;
 
+import com.hubrick.file.reader.FileReader;
 import com.hubrick.model.Employee;
 import com.hubrick.repository.Repository;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
@@ -23,17 +20,19 @@ public class EmployeeRepository implements Repository<Employee> {
 
     private List<Employee> employees;
     private Map<String, String> ages;
+    private FileReader fileReader;
 
-    public static synchronized EmployeeRepository getInstance() {
+    public static synchronized EmployeeRepository getInstance(FileReader fileReader) {
 
         if (instance == null) {
-            instance = new EmployeeRepository();
+            instance = new EmployeeRepository(fileReader);
         }
 
         return instance;
     }
 
-    private EmployeeRepository() {
+    private EmployeeRepository(FileReader fileReader) {
+        this.fileReader = fileReader;
         this.ages = loadAges();
         this.employees = loadEmployees();
     }
@@ -51,24 +50,19 @@ public class EmployeeRepository implements Repository<Employee> {
     private List<Employee> loadEmployees() {
 
         try {
-
-            InputStream inputStream = new FileInputStream(new File("data/employees.csv"));
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            BufferedReader bufferedReader = fileReader.readFile("data/employees.csv");
             return bufferedReader.lines().map(mapLineToEmployee).collect(Collectors.toList());
-
         } catch (FileNotFoundException e) {
             return Collections.emptyList();
         }
+
     }
 
     private Map<String, String> loadAges() {
 
         try {
-
-            InputStream inputStream = new FileInputStream(new File("data/ages.csv"));
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            BufferedReader bufferedReader = fileReader.readFile("data/ages.csv");
             return bufferedReader.lines().map(t -> t.split(",")).collect(Collectors.toMap(key -> key[0], value -> value[1]));
-
         } catch (FileNotFoundException e) {
             return Collections.emptyMap();
         }

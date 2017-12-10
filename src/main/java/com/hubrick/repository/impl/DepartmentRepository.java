@@ -1,14 +1,11 @@
 package com.hubrick.repository.impl;
 
+import com.hubrick.file.reader.FileReader;
 import com.hubrick.model.Department;
 import com.hubrick.repository.Repository;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -20,16 +17,18 @@ public class DepartmentRepository implements Repository<Department> {
 
     private static DepartmentRepository instance;
 
+    private FileReader fileReader;
     private List<Department> departments;
 
-    private DepartmentRepository() {
+    private DepartmentRepository(FileReader fileReader) {
+        this.fileReader = fileReader;
         this.departments = loadDepartments();
     }
 
-    public static synchronized DepartmentRepository getInstance() {
+    public static synchronized DepartmentRepository getInstance(FileReader fileReader) {
 
         if (instance == null) {
-            instance = new DepartmentRepository();
+            instance = new DepartmentRepository(fileReader);
         }
 
         return instance;
@@ -48,11 +47,8 @@ public class DepartmentRepository implements Repository<Department> {
     private List<Department> loadDepartments() {
 
         try {
-
-            InputStream inputStream = new FileInputStream(new File("data/departments.csv"));
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            BufferedReader bufferedReader = fileReader.readFile("data/departments.csv");
             return bufferedReader.lines().sorted(Comparator.comparing(s -> s)).map(mapLineToDepartment).collect(Collectors.toList());
-
         } catch (FileNotFoundException e) {
             return Collections.emptyList();
         }
