@@ -1,19 +1,18 @@
 package com.hubrick.processor;
 
+import com.hubrick.model.ReportData;
 import com.hubrick.repository.impl.DepartmentRepository;
 import com.hubrick.repository.impl.EmployeeRepository;
 import com.hubrick.service.ReportService;
-
-import java.util.Map;
 
 /**
  * Created by eric.nascimento.
  */
 public abstract class AbstractProcessor {
 
-    protected ReportService reportService;
+    private ReportService reportService;
 
-    public AbstractProcessor(ReportService reportService){
+    protected AbstractProcessor(){
         this.reportService = new ReportService(new EmployeeRepository(), new DepartmentRepository());
     }
 
@@ -21,12 +20,10 @@ public abstract class AbstractProcessor {
 
         try {
 
-            Map<Integer, Double> incomeByDepartment = reportService.getIncomeByDepartment();
-            write("income-by-department", incomeByDepartment);
-
-            Map<Integer, Double> income95ByDepartment = reportService.getIncome95ByDepartment();
-            write("income-95-by-department", income95ByDepartment);
-
+            write("income-by-department", reportService.getAverageIncomeByDepartment());
+            write("income-95-by-department", reportService.getAverageIncome95ByDepartment());
+            write("income-average-by-age-range", reportService.getAverageIncomeByAgeFactorOfTen());
+            write("employee-age-by-department", reportService.getAverageAgeByDepartment());
             return true;
 
         } catch (Exception e) {
@@ -35,6 +32,12 @@ public abstract class AbstractProcessor {
         }
     }
 
-    protected abstract boolean write(String fileName, Map<Integer, Double> report);
+    /**
+     *
+     * @param fileName
+     * @param reportData
+     * @return boolean successful or not
+     */
+    protected abstract boolean write(String fileName, ReportData reportData);
 
 }

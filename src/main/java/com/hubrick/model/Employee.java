@@ -1,6 +1,8 @@
 package com.hubrick.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class Employee implements Serializable {
 
@@ -9,10 +11,10 @@ public class Employee implements Serializable {
     private Integer departmentId;
     private String name;
     private String gender;
-    private Double income;
+    private BigDecimal income;
     private Integer age;
 
-    public Employee(Integer departmentId, String name, String gender, Double income, Integer age) {
+    public Employee(Integer departmentId, String name, String gender, BigDecimal income, Integer age) {
         this.departmentId = departmentId;
         this.name = name;
         this.gender = gender;
@@ -32,8 +34,8 @@ public class Employee implements Serializable {
         return gender;
     }
 
-    public Double getIncome() {
-        return income;
+    public BigDecimal getIncome() {
+        return income.setScale(2, RoundingMode.CEILING);
     }
 
 

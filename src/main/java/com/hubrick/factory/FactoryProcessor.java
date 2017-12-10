@@ -17,7 +17,7 @@ public class FactoryProcessor {
     public static AbstractProcessor getProcessor(FactoryType.Type type) {
 
         if (type == FactoryType.Type.CSV) {
-            return new CsvProcessor(new ReportService(new EmployeeRepository(), new DepartmentRepository()));
+            return new CsvProcessor();
         } else {
             throw new UnsupportedOperationException();
         }
