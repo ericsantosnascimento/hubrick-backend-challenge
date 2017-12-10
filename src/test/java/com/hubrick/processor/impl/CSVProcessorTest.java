@@ -20,16 +20,12 @@ public class CSVProcessorTest {
 
     private FileService fileService = FileService.getInstance();
 
-    private EmployeeRepository employeeRepository;
-
-    private DepartmentRepository departmentRepository;
-
     private ReportService reportService;
 
     @Before
     public void setUp() throws Exception {
-        this.employeeRepository = EmployeeRepository.getInstance(fileService);
-        this.departmentRepository = DepartmentRepository.getInstance(fileService);
+        EmployeeRepository employeeRepository = EmployeeRepository.getInstance(fileService);
+        DepartmentRepository departmentRepository = DepartmentRepository.getInstance(fileService);
         this.reportService = ReportService.getInstance(employeeRepository, departmentRepository);
     }
 
