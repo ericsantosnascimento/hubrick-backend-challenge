@@ -32,7 +32,6 @@ public class EmployeeRepository implements Repository<Employee> {
             return bufferedReader.lines().map(mapLineToEmployee).collect(Collectors.toList());
 
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
             return Collections.emptyList();
         }
     }

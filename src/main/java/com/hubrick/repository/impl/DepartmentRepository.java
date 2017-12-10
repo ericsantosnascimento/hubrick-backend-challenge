@@ -26,7 +26,6 @@ public class DepartmentRepository implements Repository<Department> {
             return bufferedReader.lines().map(mapLineToDepartment).collect(Collectors.toList());
 
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
             return Collections.emptyList();
         }
     }

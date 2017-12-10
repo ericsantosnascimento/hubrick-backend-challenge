@@ -14,12 +14,18 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
+import static com.hubrick.model.enums.ReportHeaderEnum.REPORT_AVERAGE_AGE_DEPARTMENT_HEADER;
+import static com.hubrick.model.enums.ReportHeaderEnum.REPORT_AVERAGE_INCOME_DEPARTMENT_HEADER;
+import static com.hubrick.model.enums.ReportHeaderEnum.REPORT_INCOME_AVERAGE_AGE_HEADER;
 import static java.math.BigDecimal.ROUND_CEILING;
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.averagingDouble;
 import static java.util.stream.Collectors.groupingBy;
 
 public class ReportService {
+
+    private static final int SCALE_TWO = 2;
+    private static final int FACTOR_TEN = 10;
 
     private EmployeeRepository employeeRepository;
     private DepartmentRepository departmentRepository;
@@ -39,7 +45,7 @@ public class ReportService {
         Map<Integer, BigDecimal> result = employees.stream()
                 .collect(Collectors.groupingBy(Employee::getDepartmentId, averagingDouble(t -> t.getIncome().doubleValue())))
                 .entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, t -> new BigDecimal(t.getValue()).setScale(2, ROUND_CEILING)));
-        return new ReportData<>("department, average income \n", result);
+        return new ReportData<>(REPORT_AVERAGE_INCOME_DEPARTMENT_HEADER.getHeader(), result);
     }
 
     public ReportData getAverageIncome95ByDepartment() {
@@ -53,23 +59,25 @@ public class ReportService {
             result.put(key, employeesSorted.get(index95percentile - 1).getIncome());
         });
 
-        return new ReportData<>("department,average income \n", result);
+        return new ReportData<>(REPORT_AVERAGE_AGE_DEPARTMENT_HEADER.getHeader(), result);
     }
 
     public ReportData getAverageAgeByDepartment() {
         Map<Integer, BigDecimal> result = employees.stream()
                 .collect(groupingBy(Employee::getDepartmentId, averagingDouble(Employee::getAge)))
                 .entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, t -> new BigDecimal(t.getValue()).setScale(2, ROUND_CEILING)));
-        return new ReportData<>("department,average age \n", result);
+        return new ReportData<>(REPORT_AVERAGE_AGE_DEPARTMENT_HEADER.getHeader(), result);
     }
 
     public ReportData getAverageIncomeByAgeFactorOfTen() {
+
+        departments.stream().forEach(department -> System.out.println(department));
         Map<Integer, Double> resultUnsorted = employees.stream().sorted(comparing(Employee::getAge))
-                .collect(groupingBy(t -> (int) Math.ceil(t.getAge() / 10 * 10), Collectors.averagingDouble(t -> t.getIncome().doubleValue())));
+                .collect(groupingBy(t -> (int) Math.ceil(t.getAge() / FACTOR_TEN * FACTOR_TEN), Collectors.averagingDouble(t -> t.getIncome().doubleValue())));
 
         TreeMap<Integer, BigDecimal> result = new TreeMap<>();
-        resultUnsorted.forEach((key, value) -> result.put(key, new BigDecimal(value).setScale(2, RoundingMode.CEILING)));
-        return new ReportData<>("ag e, average income \n", result);
+        resultUnsorted.forEach((key, value) -> result.put(key, new BigDecimal(value).setScale(SCALE_TWO, RoundingMode.CEILING)));
+        return new ReportData<>(REPORT_INCOME_AVERAGE_AGE_HEADER.getHeader(), result);
     }
 
 }
