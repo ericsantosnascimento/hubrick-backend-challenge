@@ -7,7 +7,7 @@ public class Department {
     private Integer id;
     private String description;
 
-    public Department(String description) {
+    private Department(String description) {
         this.description = description;
         this.id = idAutoIncrement++;
     }
@@ -26,5 +26,20 @@ public class Department {
                 "id=" + id +
                 ", description='" + description + '\'' +
                 '}';
+    }
+
+    public static class DepartmentBuilder {
+
+        private String description;
+
+        public Department.DepartmentBuilder description(final String description) {
+            this.description = description;
+            return this;
+        }
+
+        public Department build() {
+            return new Department(description);
+        }
+
     }
 }

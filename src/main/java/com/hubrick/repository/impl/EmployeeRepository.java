@@ -84,6 +84,13 @@ public class EmployeeRepository implements Repository<Employee> {
         String gender = Optional.ofNullable(employeeAttributes[2]).orElse(null);
         BigDecimal income = Optional.ofNullable(employeeAttributes[3]).map(BigDecimal::new).orElse(null);
         Integer age = Optional.ofNullable(ages.get(name)).map(Integer::valueOf).orElse(null);
-        return new Employee(departmentId, name, gender, income, age);
+
+        return new Employee.EmployeeBuilder()
+                .departmentId(departmentId)
+                .name(name)
+                .gender(gender)
+                .income(income)
+                .age(age)
+                .build();
     };
 }

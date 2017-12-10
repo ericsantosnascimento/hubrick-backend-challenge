@@ -8,14 +8,14 @@ public class Employee implements Serializable {
 
     private static Integer idAutoIncrement = 1;
 
-    private Integer id;
-    private Integer departmentId;
-    private String name;
-    private String gender;
-    private BigDecimal income;
-    private Integer age;
+    private final Integer id;
+    private final Integer departmentId;
+    private final String name;
+    private final String gender;
+    private final BigDecimal income;
+    private final Integer age;
 
-    public Employee(Integer departmentId, String name, String gender, BigDecimal income, Integer age) {
+    private Employee(Integer departmentId, String name, String gender, BigDecimal income, Integer age) {
         this.id = idAutoIncrement++;
         this.departmentId = departmentId;
         this.name = name;
@@ -58,5 +58,44 @@ public class Employee implements Serializable {
                 ", income=" + income +
                 ", age=" + age +
                 '}';
+    }
+
+    public static class EmployeeBuilder {
+
+        private Integer departmentId;
+        private String name;
+        private String gender;
+        private BigDecimal income;
+        private Integer age;
+
+        public EmployeeBuilder departmentId(final Integer departmentId) {
+            this.departmentId = departmentId;
+            return this;
+        }
+
+        public EmployeeBuilder name(final String name) {
+            this.name = name;
+            return this;
+        }
+
+        public EmployeeBuilder gender(final String gender) {
+            this.gender = gender;
+            return this;
+        }
+
+        public EmployeeBuilder income(final BigDecimal income) {
+            this.income = income;
+            return this;
+        }
+
+        public EmployeeBuilder age(final Integer age) {
+            this.age = age;
+            return this;
+        }
+
+        public Employee build() {
+            return new Employee(departmentId, name, gender, income, age);
+        }
+
     }
 }

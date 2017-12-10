@@ -58,6 +58,6 @@ public class DepartmentRepository implements Repository<Department> {
         }
     }
 
-    private Function<String, Department> mapLineToDepartment = Department::new;
+    private Function<String, Department> mapLineToDepartment = (line) -> new Department.DepartmentBuilder().description(line).build();
 
 }
