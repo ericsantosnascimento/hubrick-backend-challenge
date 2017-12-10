@@ -1,6 +1,6 @@
 package com.hubrick.repository.impl;
 
-import com.hubrick.file.reader.FileReader;
+import com.hubrick.service.FileService;
 import com.hubrick.model.Department;
 import com.hubrick.repository.Repository;
 
@@ -17,18 +17,18 @@ public class DepartmentRepository implements Repository<Department> {
 
     private static DepartmentRepository instance;
 
-    private FileReader fileReader;
+    private FileService fileService;
     private List<Department> departments;
 
-    private DepartmentRepository(FileReader fileReader) {
-        this.fileReader = fileReader;
+    private DepartmentRepository(FileService fileService) {
+        this.fileService = fileService;
         this.departments = loadDepartments();
     }
 
-    public static synchronized DepartmentRepository getInstance(FileReader fileReader) {
+    public static synchronized DepartmentRepository getInstance(FileService fileService) {
 
         if (instance == null) {
-            instance = new DepartmentRepository(fileReader);
+            instance = new DepartmentRepository(fileService);
         }
 
         return instance;
@@ -47,7 +47,7 @@ public class DepartmentRepository implements Repository<Department> {
     private List<Department> loadDepartments() {
 
         try {
-            BufferedReader bufferedReader = fileReader.readFile("data/departments.csv");
+            BufferedReader bufferedReader = fileService.readFile("data/departments.csv");
             return bufferedReader.lines().sorted(Comparator.comparing(s -> s)).map(mapLineToDepartment).collect(Collectors.toList());
         } catch (FileNotFoundException e) {
             return Collections.emptyList();

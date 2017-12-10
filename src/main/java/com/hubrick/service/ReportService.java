@@ -27,10 +27,20 @@ public class ReportService {
     private static final double PERCENT_95 = 0.95;
     private static final String UNKNOWN = "Unknown";
 
+    private static ReportService instance;
+
     private EmployeeRepository employeeRepository;
     private DepartmentRepository departmentRepository;
 
-    public ReportService(EmployeeRepository employeeRepository, DepartmentRepository departmentRepository) {
+    public static ReportService getInstance(EmployeeRepository employeeRepository, DepartmentRepository departmentRepository) {
+
+        if (instance == null) {
+            instance = new ReportService(employeeRepository, departmentRepository);
+        }
+        return instance;
+    }
+
+    private ReportService(EmployeeRepository employeeRepository, DepartmentRepository departmentRepository) {
         this.employeeRepository = employeeRepository;
         this.departmentRepository = departmentRepository;
     }

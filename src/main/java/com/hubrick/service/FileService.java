@@ -1,4 +1,4 @@
-package com.hubrick.file.reader;
+package com.hubrick.service;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -7,20 +7,20 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class FileReader {
+public class FileService {
 
-    private static FileReader instance;
+    private static FileService instance;
 
-    public static FileReader getInstance() {
+    public static FileService getInstance() {
 
         if (instance == null) {
-            instance = new FileReader();
+            instance = new FileService();
         }
 
         return instance;
     }
 
-    private FileReader() {
+    private FileService() {
         super();
     }
 

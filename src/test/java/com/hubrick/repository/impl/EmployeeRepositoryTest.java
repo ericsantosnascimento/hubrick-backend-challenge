@@ -1,7 +1,6 @@
 package com.hubrick.repository.impl;
 
-import com.hubrick.file.reader.FileReader;
-import com.hubrick.model.Department;
+import com.hubrick.service.FileService;
 import com.hubrick.model.Employee;
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
@@ -15,24 +14,22 @@ import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.*;
-
 @RunWith(MockitoJUnitRunner.class)
 public class EmployeeRepositoryTest {
 
     private EmployeeRepository employeeRepository;
 
-    private FileReader fileReader = FileReader.getInstance();
+    private FileService fileService = FileService.getInstance();
 
     @Before
     public void setUp() throws Exception {
-        this.employeeRepository = EmployeeRepository.getInstance(fileReader);
+        this.employeeRepository = EmployeeRepository.getInstance(fileService);
     }
 
     @Test
     public void getInstanceValidateSingletonWithSuccess() {
-        EmployeeRepository employeeRepository0 = EmployeeRepository.getInstance(fileReader);
-        EmployeeRepository employeeRepository1 = EmployeeRepository.getInstance(fileReader);
+        EmployeeRepository employeeRepository0 = EmployeeRepository.getInstance(fileService);
+        EmployeeRepository employeeRepository1 = EmployeeRepository.getInstance(fileService);
         Assert.assertThat(employeeRepository0, CoreMatchers.is(CoreMatchers.equalTo(employeeRepository1)));
     }
 
@@ -45,9 +42,9 @@ public class EmployeeRepositoryTest {
 
     @Test
     public void findAllThrowsFileNotFound() throws Exception {
-        FileReader fileReaderMock = Mockito.mock(FileReader.class);
+        FileService fileServiceMock = Mockito.mock(FileService.class);
         EmployeeRepository employeeRepositoryMock = Mockito.mock(EmployeeRepository.class);
-        Mockito.when(fileReaderMock.readFile("data/employees.csv")).thenThrow(FileNotFoundException.class);
+        Mockito.when(fileServiceMock.readFile("data/employees.csv")).thenThrow(FileNotFoundException.class);
         List<Employee> departments = employeeRepositoryMock.findAll();
         Assert.assertThat(departments, CoreMatchers.notNullValue());
         Assert.assertThat(departments.size(), CoreMatchers.is(0));

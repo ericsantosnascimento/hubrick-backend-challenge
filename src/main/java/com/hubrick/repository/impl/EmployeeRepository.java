@@ -1,6 +1,6 @@
 package com.hubrick.repository.impl;
 
-import com.hubrick.file.reader.FileReader;
+import com.hubrick.service.FileService;
 import com.hubrick.model.Employee;
 import com.hubrick.repository.Repository;
 
@@ -20,19 +20,19 @@ public class EmployeeRepository implements Repository<Employee> {
 
     private List<Employee> employees;
     private Map<String, String> ages;
-    private FileReader fileReader;
+    private FileService fileService;
 
-    public static synchronized EmployeeRepository getInstance(FileReader fileReader) {
+    public static synchronized EmployeeRepository getInstance(FileService fileService) {
 
         if (instance == null) {
-            instance = new EmployeeRepository(fileReader);
+            instance = new EmployeeRepository(fileService);
         }
 
         return instance;
     }
 
-    private EmployeeRepository(FileReader fileReader) {
-        this.fileReader = fileReader;
+    private EmployeeRepository(FileService fileService) {
+        this.fileService = fileService;
         this.ages = loadAges();
         this.employees = loadEmployees();
     }
@@ -50,7 +50,7 @@ public class EmployeeRepository implements Repository<Employee> {
     private List<Employee> loadEmployees() {
 
         try {
-            BufferedReader bufferedReader = fileReader.readFile("data/employees.csv");
+            BufferedReader bufferedReader = fileService.readFile("data/employees.csv");
             return bufferedReader.lines().map(mapLineToEmployee).collect(Collectors.toList());
         } catch (FileNotFoundException e) {
             return Collections.emptyList();
@@ -61,7 +61,7 @@ public class EmployeeRepository implements Repository<Employee> {
     private Map<String, String> loadAges() {
 
         try {
-            BufferedReader bufferedReader = fileReader.readFile("data/ages.csv");
+            BufferedReader bufferedReader = fileService.readFile("data/ages.csv");
             return bufferedReader.lines().map(t -> t.split(",")).collect(Collectors.toMap(key -> key[0], value -> value[1]));
         } catch (FileNotFoundException e) {
             return Collections.emptyMap();

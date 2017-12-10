@@ -1,6 +1,6 @@
 package com.hubrick.repository.impl;
 
-import com.hubrick.file.reader.FileReader;
+import com.hubrick.service.FileService;
 import com.hubrick.model.Department;
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
@@ -19,17 +19,17 @@ public class DepartmentRepositoryTest {
 
     private DepartmentRepository departmentRepository;
 
-    private FileReader fileReader = FileReader.getInstance();
+    private FileService fileService = FileService.getInstance();
 
     @Before
     public void setUp() throws Exception {
-        this.departmentRepository = DepartmentRepository.getInstance(fileReader);
+        this.departmentRepository = DepartmentRepository.getInstance(fileService);
     }
 
     @Test
     public void getInstanceValidateSingletonWithSuccess() {
-        DepartmentRepository departmentRepository0 = DepartmentRepository.getInstance(fileReader);
-        DepartmentRepository departmentRepository1 = DepartmentRepository.getInstance(fileReader);
+        DepartmentRepository departmentRepository0 = DepartmentRepository.getInstance(fileService);
+        DepartmentRepository departmentRepository1 = DepartmentRepository.getInstance(fileService);
         Assert.assertThat(departmentRepository1, CoreMatchers.is(CoreMatchers.equalTo(departmentRepository0)));
     }
 
@@ -42,9 +42,9 @@ public class DepartmentRepositoryTest {
 
     @Test
     public void findAllThrowsFileNotFound() throws Exception {
-        FileReader fileReaderMock = Mockito.mock(FileReader.class);
+        FileService fileServiceMock = Mockito.mock(FileService.class);
         DepartmentRepository departmentRepositoryMock = Mockito.mock(DepartmentRepository.class);
-        Mockito.when(fileReaderMock.readFile("data/departments.csv")).thenThrow(FileNotFoundException.class);
+        Mockito.when(fileServiceMock.readFile("data/departments.csv")).thenThrow(FileNotFoundException.class);
         List<Department> departments = departmentRepositoryMock.findAll();
         Assert.assertThat(departments, CoreMatchers.notNullValue());
         Assert.assertThat(departments.size(), CoreMatchers.is(0));
