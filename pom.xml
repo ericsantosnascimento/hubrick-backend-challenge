@@ -45,7 +45,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>Application</mainClass>
+                            <mainClass>com.hubrick.HubrickMainApplication</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

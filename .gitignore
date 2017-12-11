@@ -1,2 +1,6 @@
 .idea/
 target/
+employee-age-by-department.csv
+income-95-by-department.csv
+income-average-by-age-range.csv
+income-by-department.csv
