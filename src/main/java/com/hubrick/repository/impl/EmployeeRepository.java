@@ -1,8 +1,8 @@
 package com.hubrick.repository.impl;
 
-import com.hubrick.service.FileService;
 import com.hubrick.model.Employee;
 import com.hubrick.repository.Repository;
+import com.hubrick.service.FileService;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -14,6 +14,11 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/**
+ * Department repository for data access to employee metadata
+ *
+ * @author eric.nascimento
+ */
 public class EmployeeRepository implements Repository<Employee> {
 
     private static EmployeeRepository instance;

@@ -1,5 +1,8 @@
 package com.hubrick.model.enums;
 
+/**
+ * Holds the current reports name
+ */
 public enum ReportNameEnum {
 
     REPORT_95_INCOME_BY_DEPARTMENT("income-95-by-department"),

@@ -1,5 +1,8 @@
 package com.hubrick.model.enums;
 
+/**
+ * Holds the current headers for the reports
+ */
 public enum ReportHeaderEnum {
 
     REPORT_AVERAGE_AGE_DEPARTMENT_HEADER("department, average age \n"),

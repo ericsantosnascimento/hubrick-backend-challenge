@@ -7,6 +7,11 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+/**
+ * Class responsible for file reading.
+ *
+ * @author eric.nascimento
+ */
 public class FileService {
 
     private static FileService instance;

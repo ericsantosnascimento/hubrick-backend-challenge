@@ -7,6 +7,11 @@ import com.hubrick.writer.Writer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+/**
+ * Responsible for write csv files.
+ *
+ * @author eric.nascimento
+ */
 public class CSVWriter implements Writer {
 
     private static CSVWriter instance;

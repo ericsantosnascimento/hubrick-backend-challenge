@@ -13,6 +13,11 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/**
+ * Department repository for data access to department metadata
+ *
+ * @author eric.nascimento
+ */
 public class DepartmentRepository implements Repository<Department> {
 
     private static DepartmentRepository instance;

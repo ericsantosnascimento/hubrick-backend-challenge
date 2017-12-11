@@ -20,6 +20,11 @@ import static com.hubrick.model.enums.ReportHeaderEnum.REPORT_INCOME_AVERAGE_AGE
 import static java.math.BigDecimal.ROUND_CEILING;
 import static java.util.Comparator.comparing;
 
+/**
+ * This class hold all available reports business logic, it consolidates data, apply formulas and sorting
+ *
+ * @author eric.nascimento
+ */
 public class ReportService {
 
     private static final int SCALE_TWO = 2;

@@ -2,6 +2,14 @@ package com.hubrick.model;
 
 import java.util.Map;
 
+/**
+ * Represents the report itself, it's a type class T and E will be map type
+ *
+ * @param <T> map key type
+ * @param <E> map value type
+ *
+ * @author eric.nascimento
+ */
 public class ReportData<T,E> {
 
     private String header;

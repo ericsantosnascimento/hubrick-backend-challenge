@@ -4,6 +4,11 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+/**
+ * Represents the employee entity, to build a instance use {@link Employee.EmployeeBuilder}
+ *
+ * @author eric.nascimento
+ */
 public class Employee implements Serializable {
 
     private static Integer idAutoIncrement = 1;

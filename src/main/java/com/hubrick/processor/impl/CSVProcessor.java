@@ -10,7 +10,9 @@ import static com.hubrick.model.enums.ReportNameEnum.REPORT_AVG_INCOME_BY_AGE;
 import static com.hubrick.model.enums.ReportNameEnum.REPORT_AVG_INCOME_BY_DEPARTMENT;
 
 /**
- * Created by eric.nascimento.
+ * Process available Csv files
+ *
+ * @author eric.nascimento.
  */
 public class CSVProcessor implements Processor {
 
@@ -31,6 +33,12 @@ public class CSVProcessor implements Processor {
         this.csvWriter = csvWriter;
     }
 
+    /**
+     * Consolidating reports and writing data into files, return success in case of success, any exception will during process will throw runtime
+     * exceptions
+     *
+     * @return boolean success
+     */
     @Override
     public boolean process() {
 
